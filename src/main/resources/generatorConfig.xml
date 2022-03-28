@@ -1,0 +1,47 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!--suppress MybatisGenerateCustomPluginInspection -->
+<generatorConfiguration>
+    <properties resource="application.properties"/>
+
+    <context id="mbg" targetRuntime="MyBatis3DynamicSQL">
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${spring.datasource.driverClassName}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.gr.geias.entity"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <javaClientGenerator type="ANNOTATEDMAPPER"
+                             targetPackage="com.gr.geias.dao"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+
+        <!--                <table tableName="tb_area" domainObjectName="Area"/>-->
+        <!--                <table tableName="tb_class_grade" domainObjectName="ClassGrade"/>-->
+        <!--                <table tableName="tb_college" domainObjectName="College"/>-->
+        <!--                        <table tableName="tb_employment_information" domainObjectName="EmploymentInformation"/>-->
+        <!--                <table tableName="tb_employment_way" domainObjectName="EmploymentWay"/>-->
+        <!--                <table tableName="tb_organization_num" domainObjectName="OrganizationNum"/>-->
+        <table tableName="tb_person_info" domainObjectName="PersonInfo"/>
+        <!--                <table tableName="tb_specialty" domainObjectName="Specialty"/>-->
+        <!--                <table tableName="tb_unit_kind" domainObjectName="UnitKind"/>-->
+        <!--        <table tableName="tb_district" domainObjectName="District"/>-->
+    </context>
+</generatorConfiguration>
