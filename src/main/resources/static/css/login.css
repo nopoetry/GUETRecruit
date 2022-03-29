@@ -43,15 +43,15 @@ body{
     width: 78px;
     font-size: 14px;
     cursor: pointer;
-    color: #6aa2e4;
+    color: #32ca99;
 
-    border: solid 1px #6aa2e4;
+    border: solid 1px #32ca99;
     border-radius: 2px;
 }
 .switch_to_hr .switch_btn a{
     cursor: pointer!important;
     text-decoration: none !important;
-    color: #6aa2e4 !important;
+    color: #32ca99 !important;
 }
 .login_form_content{
     border-radius: 15px;
@@ -80,17 +80,17 @@ body{
     transition: border .4s ease-in-out;
 }
 .login_form_content input:hover{
-    border: solid 1px #6aa2e4;
+    border: solid 1px #32ca99;
 }
 .login_form_content input:focus{
-    border: solid 1px #6aa2e4!important;
+    border: solid 1px #32ca99!important;
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
 }
 #login_btn{
     border: none;
-    background-color: #6aa2e4;
+    background-color: #32ca99;
     color: whitesmoke;
     font-size: 18px;
     width: 342px;
@@ -103,7 +103,7 @@ body{
     margin-right: 3px;
     margin-bottom: 18px;
     float: right;
-    color: #6aa2e4;
+    color: #32ca99;
     text-decoration: none;
     font-size: 14px;
 }
@@ -116,7 +116,7 @@ body{
     text-align: left;
 }
 .reg_a{
-    color: #6aa2e4;
+    color: #32ca99;
     text-decoration: none;
     font-size: 14px;
 }
@@ -141,5 +141,5 @@ body{
     transition: color .4s;
 }
 .login_way li a:hover{
-    color: #6aa2e4;
+    color: #32ca99;
 }
