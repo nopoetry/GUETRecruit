@@ -20,11 +20,11 @@
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.gr.geias.entity"
-                            targetProject="src/main/java">
-            <property name="enableSubPackages" value="false"/>
-            <property name="trimStrings" value="true"/>
-        </javaModelGenerator>
+        <!--        <javaModelGenerator targetPackage="com.gr.geias.entity"-->
+        <!--                            targetProject="src/main/java">-->
+        <!--            <property name="enableSubPackages" value="false"/>-->
+        <!--            <property name="trimStrings" value="true"/>-->
+        <!--        </javaModelGenerator>-->
 
         <javaClientGenerator type="ANNOTATEDMAPPER"
                              targetPackage="com.gr.geias.dao"
@@ -33,15 +33,15 @@
         </javaClientGenerator>
 
 
-        <!--                <table tableName="tb_area" domainObjectName="Area"/>-->
-        <!--                <table tableName="tb_class_grade" domainObjectName="ClassGrade"/>-->
-        <!--                <table tableName="tb_college" domainObjectName="College"/>-->
-        <!--                        <table tableName="tb_employment_information" domainObjectName="EmploymentInformation"/>-->
-        <!--                <table tableName="tb_employment_way" domainObjectName="EmploymentWay"/>-->
-        <!--                <table tableName="tb_organization_num" domainObjectName="OrganizationNum"/>-->
-        <table tableName="tb_person_info" domainObjectName="PersonInfo"/>
-        <!--                <table tableName="tb_specialty" domainObjectName="Specialty"/>-->
-        <!--                <table tableName="tb_unit_kind" domainObjectName="UnitKind"/>-->
-        <!--        <table tableName="tb_district" domainObjectName="District"/>-->
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="admin" domainObjectName="Admin"/>
+
     </context>
 </generatorConfiguration>
