@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>网站名称</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script src="/js/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-
+    <!--    <script src="/js/proper/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>-->
+    <script src="/js/proper/popper.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.css"/>
     <script src="/js/bootstrap.js"></script>
 
@@ -22,24 +23,23 @@
 <div class="wrap">
     <div class="header">
 
-        <div class="container row"  id="header-vue-bind-div">
+        <div class="container row" id="header-vue-bind-div">
             <a class="logo"></a>
             <ul class="nav col-lg-8">
                 <!--<li class="address">全国</li>-->
                 <li class="nav_li current"><a class="nav_item" href="/">首页</a></li>
                 <li class="nav_li"><a class="nav_item" href="/searchlist?keyword=">职位搜索</a></li>
-                <li class="nav_li"><a class="nav_item" href="https://www.xiaoyuanzhao.com/">2018校招</a></li>
-                <li class="nav_li"><a class="nav_item" href="https://www.kongzhongtalk.com/">空中宣讲</a></li>
                 <li class="nav_li"><a class="nav_item" href="/user/info?type=person">我的简历</a></li>
             </ul>
 
-            <ul class="clear_fix col-lg-2  "  v-if="type===null">
+            <ul class="clear_fix col-lg-2  " v-if="type===null">
                 <li><a class="clear_fix_item login" href="/user/login">登录</a></li>
                 <li><a class="clear_fix_item register" href="/register">注册</a></li>
             </ul>
 
-            <ul class="clear_fix col-lg-2 " v-if="type==='user'" >
-                <li><img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3803332007,2672307128&fm=58" alt="" class="img-circle" style="width: 48px;height: 48px"></li>
+            <ul class="clear_fix col-lg-2 " v-if="type==='user'">
+                <li><img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3803332007,2672307128&fm=58" alt=""
+                         class="img-circle" style="width: 48px;height: 48px"></li>
                 <li>
 
 
@@ -59,14 +59,15 @@
 
                 </li>
             </ul>
-            <ul class="clear_fix col-lg-2 "  v-if="type==='hr'">
-                <li><img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3803332007,2672307128&fm=58" alt="" class="img-circle" style="width: 48px;height: 48px"></li>
+            <ul class="clear_fix col-lg-2 " v-if="type==='hr'">
+                <li><img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3803332007,2672307128&fm=58" alt=""
+                         class="img-circle" style="width: 48px;height: 48px"></li>
                 <li>
 
 
                     <div class="dropdown">
                         <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <h6 >{{person.hr.hrName}}</h6>
+                            <h6>{{person.hr.hrName}}</h6>
                             <span class="caret"></span>
                         </a>
 
@@ -86,13 +87,13 @@
     </div>
     <script>
         var headervue = new Vue({
-            el:'#header-vue-bind-div',
+            el: '#header-vue-bind-div',
 
-            data:{
-                type:null,
-                person:{
-                    user:null,
-                    hr:null
+            data: {
+                type: null,
+                person: {
+                    user: null,
+                    hr: null
                 }
 
             }
@@ -103,8 +104,9 @@
 
         <div class="search-box text-center ">
             <form class="text-center row" name="search_form" action="/searchlist" method="get">
-                <input class="search-input col-md-7 col-md-offset-1" id="search-input" name="keyword" type="text" placeholder="搜索职位名称关键字">
-                <input  class="col-md-2" type="submit" id="search-button" value="搜索"/>
+                <input class="search-input col-md-7 col-md-offset-1" id="search-input" name="keyword" type="text"
+                       placeholder="搜索职位名称关键字">
+                <input class="col-md-2" type="submit" id="search-button" value="搜索"/>
             </form>
 
         </div>
@@ -141,27 +143,27 @@
                             <span>后端开发</span>
                         </dt>
                         <dd>
-                            <a href="/searchlist?keyword=Java" class="current" >Java</a>
-                            <a href="/searchlist?keyword=C++" >C++</a>
-                            <a href="/searchlist?keyword=PHP" >PHP</a>
-                            <a href="/searchlist?keyword=数据挖掘" >数据挖掘</a>
-                            <a href="#" >搜索算法</a>
-                            <a href="#" >精准推荐</a>
-                            <a href="#" >C</a>
-                            <a href="#" >C#</a>
-                            <a href="#"  class="current">全栈工程师</a>
-                            <a href="#" >Hadoop</a>
-                            <a href="/searchlist?keyword=.Net" >.NET</a>
-                            <a href="/searchlist?keyword=Python" >Python</a>
-                            <a href="#" >Delphi</a>
-                            <a href="#" >VB</a>
-                            <a href="#" >Perl</a>
-                            <a href="#" >Ruby</a>
-                            <a href="#" class="current" >Node.js</a>
-                            <a href="#" >Go</a>
-                            <a href="#" >ASP</a>
-                            <a href="#" >Shell</a>
-                            <a href="#" >后端开发其它</a>
+                            <a href="/searchlist?keyword=Java" class="current">Java</a>
+                            <a href="/searchlist?keyword=C++">C++</a>
+                            <a href="/searchlist?keyword=PHP">PHP</a>
+                            <a href="/searchlist?keyword=数据挖掘">数据挖掘</a>
+                            <a href="#">搜索算法</a>
+                            <a href="#">精准推荐</a>
+                            <a href="#">C</a>
+                            <a href="#">C#</a>
+                            <a href="#" class="current">全栈工程师</a>
+                            <a href="#">Hadoop</a>
+                            <a href="/searchlist?keyword=.Net">.NET</a>
+                            <a href="/searchlist?keyword=Python">Python</a>
+                            <a href="#">Delphi</a>
+                            <a href="#">VB</a>
+                            <a href="#">Perl</a>
+                            <a href="#">Ruby</a>
+                            <a href="#" class="current">Node.js</a>
+                            <a href="#">Go</a>
+                            <a href="#">ASP</a>
+                            <a href="#">Shell</a>
+                            <a href="#">后端开发其它</a>
 
                         </dd>
 
@@ -171,11 +173,11 @@
                             移动开发
                         </dt>
                         <dd>
-                            <a href="#" class="current" >HTML5</a>
-                            <a href="#"  class="current">Android</a>
-                            <a href="#" >iOS</a>
-                            <a href="#" >WP</a>
-                            <a href="#" >移动开发其它</a>
+                            <a href="#" class="current">HTML5</a>
+                            <a href="#" class="current">Android</a>
+                            <a href="#">iOS</a>
+                            <a href="#">WP</a>
+                            <a href="#">移动开发其它</a>
                         </dd>
                     </dl>
                     <dl>
@@ -184,12 +186,12 @@
                         </dt>
                         <dd>
                             <a href="#" class="current">web前端</a>
-                            <a href="#" >Flash</a>
+                            <a href="#">Flash</a>
                             <a href="#" class="current">JavaScript</a>
-                            <a href="#" >U3D</a>
-                            <a href="#" >Shell</a>
-                            <a href="#" >COCOS2D-X</a>
-                            <a href="#" >前端开发其它</a>
+                            <a href="#">U3D</a>
+                            <a href="#">Shell</a>
+                            <a href="#">COCOS2D-X</a>
+                            <a href="#">前端开发其它</a>
 
                         </dd>
                     </dl>
@@ -200,12 +202,12 @@
                         <dd>
                             <a href="#" class="current">深度学习</a>
                             <a href="#" class="current">机器学习</a>
-                            <a href="#" >图像处理</a>
-                            <a href="#" >图像识别</a>
-                            <a href="#" >语音识别</a>
-                            <a href="#" >机器视觉</a>
-                            <a href="#" >算法工程师</a>
-                            <a href="#" >自然语言处理</a>
+                            <a href="#">图像处理</a>
+                            <a href="#">图像识别</a>
+                            <a href="#">语音识别</a>
+                            <a href="#">机器视觉</a>
+                            <a href="#">算法工程师</a>
+                            <a href="#">自然语言处理</a>
                         </dd>
                     </dl>
                     <dl>
@@ -213,18 +215,18 @@
                             测试
                         </dt>
                         <dd>
-                            <a href="#" >测试工程师</a>
-                            <a href="#" >自动化测试</a>
-                            <a href="#" >功能测试</a>
-                            <a href="#" >性能测试</a>
-                            <a href="#" >测试开发</a>
-                            <a href="#" >游戏测试</a>
-                            <a href="#" >白盒测试</a>
-                            <a href="#" >灰盒测试</a>
-                            <a href="#" >黑盒测试</a>
-                            <a href="#" >手机测试</a>
-                            <a href="#" >硬件测试</a>
-                            <a href="#" >测试经理</a>
+                            <a href="#">测试工程师</a>
+                            <a href="#">自动化测试</a>
+                            <a href="#">功能测试</a>
+                            <a href="#">性能测试</a>
+                            <a href="#">测试开发</a>
+                            <a href="#">游戏测试</a>
+                            <a href="#">白盒测试</a>
+                            <a href="#">灰盒测试</a>
+                            <a href="#">黑盒测试</a>
+                            <a href="#">手机测试</a>
+                            <a href="#">硬件测试</a>
+                            <a href="#">测试经理</a>
 
                         </dd>
                     </dl>
@@ -233,16 +235,16 @@
                             运维
                         </dt>
                         <dd>
-                            <a href="#" >运维工程师</a>
-                            <a href="#" >网络工程师</a>
-                            <a href="#" >系统工程师</a>
-                            <a href="#" >IT支持</a>
-                            <a href="#" >CDN</a>
-                            <a href="#" >系统管理员</a>
-                            <a href="#" >网络安全</a>
-                            <a href="#" >系统安全</a>
-                            <a href="#" >运维经理</a>
-                            <a href="#" >运维其他</a>
+                            <a href="#">运维工程师</a>
+                            <a href="#">网络工程师</a>
+                            <a href="#">系统工程师</a>
+                            <a href="#">IT支持</a>
+                            <a href="#">CDN</a>
+                            <a href="#">系统管理员</a>
+                            <a href="#">网络安全</a>
+                            <a href="#">系统安全</a>
+                            <a href="#">运维经理</a>
+                            <a href="#">运维其他</a>
 
                         </dd>
                     </dl>
@@ -261,21 +263,21 @@
                     <dl>
                         <dt>产品经理</dt>
                         <dd>
-                            <a href="#" class="current" >产品经理</a>
-                            <a href="#" >网页产品经理</a>
-                            <a href="#" >移动产品经理</a>
-                            <a href="#" >产品助理</a>
-                            <a href="#" class="current" >数据产品经理</a>
-                            <a href="#" >电商产品经理</a>
-                            <a href="#" >游戏策划</a>
-                            <a href="#" >产品实习生</a>
+                            <a href="#" class="current">产品经理</a>
+                            <a href="#">网页产品经理</a>
+                            <a href="#">移动产品经理</a>
+                            <a href="#">产品助理</a>
+                            <a href="#" class="current">数据产品经理</a>
+                            <a href="#">电商产品经理</a>
+                            <a href="#">游戏策划</a>
+                            <a href="#">产品实习生</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>产品设计师</dt>
                         <dd>
-                            <a href="#" >网页产品设计师</a>
-                            <a href="#" >无线产品设计师</a>
+                            <a href="#">网页产品设计师</a>
+                            <a href="#">无线产品设计师</a>
                         </dd>
                     </dl>
                 </div>
@@ -296,36 +298,36 @@
                         <dd>
                             <a href="#" class="current">错觉设计师</a>
                             <a href="#" class="current">网页设计师</a>
-                            <a href="#" >Flash设计师</a>
-                            <a href="#" >APP设计师</a>
-                            <a href="#" class="current" >UI设计师</a>
-                            <a href="#" >平面设计师</a>
-                            <a href="#" >美术设计师</a>
-                            <a href="#" >广告设计师</a>
-                            <a href="#" >多媒体设计师</a>
-                            <a href="#" >原画师</a>
-                            <a href="#" >游戏特效</a>
-                            <a href="#" >游戏界面设计师</a>
-                            <a href="#" >游戏场景</a>
-                            <a href="#" >游戏角色</a>
-                            <a href="#" >游戏动作</a>
+                            <a href="#">Flash设计师</a>
+                            <a href="#">APP设计师</a>
+                            <a href="#" class="current">UI设计师</a>
+                            <a href="#">平面设计师</a>
+                            <a href="#">美术设计师</a>
+                            <a href="#">广告设计师</a>
+                            <a href="#">多媒体设计师</a>
+                            <a href="#">原画师</a>
+                            <a href="#">游戏特效</a>
+                            <a href="#">游戏界面设计师</a>
+                            <a href="#">游戏场景</a>
+                            <a href="#">游戏角色</a>
+                            <a href="#">游戏动作</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>交互设计</dt>
                         <dd>
-                            <a href="#" >交互设计师</a>
-                            <a href="#" >无线交互设计师</a>
-                            <a href="#" >网页交互设计师</a>
-                            <a href="#" >硬件交互设计师</a>
+                            <a href="#">交互设计师</a>
+                            <a href="#">无线交互设计师</a>
+                            <a href="#">网页交互设计师</a>
+                            <a href="#">硬件交互设计师</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>用户研究</dt>
                         <dd>
-                            <a href="#" >数据分析师</a>
-                            <a href="#" >用户研究员</a>
-                            <a href="#" >游戏数值策划</a>
+                            <a href="#">数据分析师</a>
+                            <a href="#">用户研究员</a>
+                            <a href="#">游戏数值策划</a>
                         </dd>
                     </dl>
                 </div>
@@ -344,39 +346,39 @@
                     <dl>
                         <dt>运营</dt>
                         <dd>
-                            <a href="#" >用户运营</a>
-                            <a href="#" >产品运营</a>
+                            <a href="#">用户运营</a>
+                            <a href="#">产品运营</a>
                             <a href="#" class="current">数据运营</a>
-                            <a href="#" >内容运营</a>
-                            <a href="#" >活动运营</a>
-                            <a href="#" >商家运营</a>
-                            <a href="#" >品类运营</a>
-                            <a href="#" >游戏运营</a>
-                            <a href="#" >网络推广</a>
-                            <a href="#" >运营专员</a>
-                            <a href="#" >网店运营</a>
-                            <a href="#"  class="current">新媒体运营</a>
-                            <a href="#" >海外运营</a>
-                            <a href="#" >运营经理</a>
+                            <a href="#">内容运营</a>
+                            <a href="#">活动运营</a>
+                            <a href="#">商家运营</a>
+                            <a href="#">品类运营</a>
+                            <a href="#">游戏运营</a>
+                            <a href="#">网络推广</a>
+                            <a href="#">运营专员</a>
+                            <a href="#">网店运营</a>
+                            <a href="#" class="current">新媒体运营</a>
+                            <a href="#">海外运营</a>
+                            <a href="#">运营经理</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>编辑</dt>
                         <dd>
-                            <a href="#" >主编辑</a>
-                            <a href="#" >副主编</a>
-                            <a href="#" >内容编辑</a>
-                            <a href="#" >文案编辑</a>
-                            <a href="#" >记者</a>
+                            <a href="#">主编辑</a>
+                            <a href="#">副主编</a>
+                            <a href="#">内容编辑</a>
+                            <a href="#">文案编辑</a>
+                            <a href="#">记者</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>客服</dt>
                         <dd>
-                            <a href="#" >售前咨询</a>
-                            <a href="#" >售后咨询</a>
-                            <a href="#" >淘宝客服</a>
-                            <a href="#" >客服经理</a>
+                            <a href="#">售前咨询</a>
+                            <a href="#">售后咨询</a>
+                            <a href="#">淘宝客服</a>
+                            <a href="#">客服经理</a>
                         </dd>
                     </dl>
 
@@ -395,44 +397,44 @@
                     <dl>
                         <dt>市场/营销</dt>
                         <dd>
-                            <a href="#" >市场营销</a>
-                            <a href="#" class="current" >市场策划</a>
-                            <a href="#" >市场顾问</a>
-                            <a href="#" >市场推广</a>
-                            <a href="#" >SEO</a>
-                            <a href="#" >SEM</a>
-                            <a href="#" >商务渠道</a>
-                            <a href="#" >商业数据分析</a>
-                            <a href="#" >活动策划</a>
-                            <a href="#"  class="current">网络营销</a>
-                            <a href="#" >海外市场</a>
-                            <a href="#" >政府关系</a>
+                            <a href="#">市场营销</a>
+                            <a href="#" class="current">市场策划</a>
+                            <a href="#">市场顾问</a>
+                            <a href="#">市场推广</a>
+                            <a href="#">SEO</a>
+                            <a href="#">SEM</a>
+                            <a href="#">商务渠道</a>
+                            <a href="#">商业数据分析</a>
+                            <a href="#">活动策划</a>
+                            <a href="#" class="current">网络营销</a>
+                            <a href="#">海外市场</a>
+                            <a href="#">政府关系</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>公关</dt>
                         <dd>
-                            <a href="#" >媒介经理</a>
-                            <a href="#" >广告协调</a>
-                            <a href="#" >品牌公关</a>
+                            <a href="#">媒介经理</a>
+                            <a href="#">广告协调</a>
+                            <a href="#">品牌公关</a>
 
                         </dd>
                     </dl>
                     <dl>
                         <dt>销售</dt>
                         <dd>
-                            <a href="#" >销售专员</a>
+                            <a href="#">销售专员</a>
                             <a href="#" class="current">销售经理</a>
-                            <a href="#" >客户代表</a>
-                            <a href="#" >大客户代表</a>
-                            <a href="#" >BD经理</a>
-                            <a href="#" >商务渠道</a>
-                            <a href="#" >渠道销售</a>
-                            <a href="#" >代理商销售</a>
-                            <a href="#" >销售助理</a>
-                            <a href="#" >电话销售</a>
-                            <a href="#" >销售顾问</a>
-                            <a href="#" >商品经理</a>
+                            <a href="#">客户代表</a>
+                            <a href="#">大客户代表</a>
+                            <a href="#">BD经理</a>
+                            <a href="#">商务渠道</a>
+                            <a href="#">渠道销售</a>
+                            <a href="#">代理商销售</a>
+                            <a href="#">销售助理</a>
+                            <a href="#">电话销售</a>
+                            <a href="#">销售顾问</a>
+                            <a href="#">商品经理</a>
 
                         </dd>
                     </dl>
@@ -447,9 +449,9 @@
                         <dt>采购</dt>
                         <dl>
                             <dd>
-                                <a href="#" >采购专员</a>
-                                <a href="#" >采购经理</a>
-                                <a href="#" >商品经理</a>
+                                <a href="#">采购专员</a>
+                                <a href="#">采购经理</a>
+                                <a href="#">商品经理</a>
                             </dd>
                         </dl>
                     </dl>
@@ -470,44 +472,44 @@
                     <dl>
                         <dt>人力资源</dt>
                         <dd>
-                            <a href="#" >人力资源</a>
-                            <a href="#" class="current" >招聘</a>
-                            <a href="#" >HRBP</a>
-                            <a href="#" >人事</a>
-                            <a href="#" >培训经理</a>
-                            <a href="#" >薪资福利经理</a>
-                            <a href="#" >绩效考核经理</a>
-                            <a href="#" >员工关系</a>
+                            <a href="#">人力资源</a>
+                            <a href="#" class="current">招聘</a>
+                            <a href="#">HRBP</a>
+                            <a href="#">人事</a>
+                            <a href="#">培训经理</a>
+                            <a href="#">薪资福利经理</a>
+                            <a href="#">绩效考核经理</a>
+                            <a href="#">员工关系</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>行政</dt>
                         <dd>
-                            <a href="#" >助理</a>
-                            <a href="#" >前台</a>
-                            <a href="#" >行政</a>
+                            <a href="#">助理</a>
+                            <a href="#">前台</a>
+                            <a href="#">行政</a>
                             <a href="#" class="current">总助</a>
-                            <a href="#" >文秘</a>
+                            <a href="#">文秘</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>财务</dt>
                         <dd>
-                            <a href="#" >会计</a>
-                            <a href="#" >出纳</a>
-                            <a href="#"class="current" >财务</a>
+                            <a href="#">会计</a>
+                            <a href="#">出纳</a>
+                            <a href="#" class="current">财务</a>
                             <a href="#" class="current">结算</a>
-                            <a href="#" >税务</a>
-                            <a href="#" >审计</a>
+                            <a href="#">税务</a>
+                            <a href="#">审计</a>
                             <a href="#" class="current">风控</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>法务</dt>
                         <dd>
-                            <a href="#"class="current" >专刊</a>
-                            <a href="#" >法务</a>
-                            <a href="#" >律师</a>
+                            <a href="#" class="current">专刊</a>
+                            <a href="#">法务</a>
+                            <a href="#">律师</a>
 
                         </dd>
                     </dl>
@@ -528,34 +530,34 @@
                     <dl>
                         <dt>投融资</dt>
                         <dd>
-                            <a href="#" >投资经理</a>
-                            <a href="#" class="current" >分析师</a>
-                            <a href="#" >投资助理</a>
-                            <a href="#" >融资</a>
+                            <a href="#">投资经理</a>
+                            <a href="#" class="current">分析师</a>
+                            <a href="#">投资助理</a>
+                            <a href="#">融资</a>
                             <a href="#" class="current">并购</a>
-                            <a href="#" >行业研究</a>
-                            <a href="#" >投资者关系</a>
-                            <a href="#" >资产管理</a>
+                            <a href="#">行业研究</a>
+                            <a href="#">投资者关系</a>
+                            <a href="#">资产管理</a>
                             <a href="#" class="current">理财顾问</a>
-                            <a href="#" >交易员</a>
+                            <a href="#">交易员</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>风控</dt>
                         <dd>
                             <a href="#" class="current">风控</a>
-                            <a href="#" >资信评估</a>
-                            <a href="#" >合规稽查</a>
-                            <a href="#" >律师</a>
+                            <a href="#">资信评估</a>
+                            <a href="#">合规稽查</a>
+                            <a href="#">律师</a>
                         </dd>
                     </dl>
                     <dl>
                         <dt>审计税务</dt>
                         <dd>
-                            <a href="#" >审计</a>
-                            <a href="#" >法务</a>
-                            <a href="#" >会计</a>
-                            <a href="#" >清算</a>
+                            <a href="#">审计</a>
+                            <a href="#">法务</a>
+                            <a href="#">会计</a>
+                            <a href="#">清算</a>
 
                         </dd>
                     </dl>
@@ -569,19 +571,19 @@
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0" class="active slide-spot"></li>
                     <li data-target="#myCarousel" data-slide-to="1" class="slide-spot"></li>
-                    <li data-target="#myCarousel" data-slide-to="2" class="slide-spot"></li>
+<!--                    <li data-target="#myCarousel" data-slide-to="2" class="slide-spot"></li>-->
                 </ol>
                 <!-- 轮播（Carousel）项目 -->
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img src="/img/poster1.png" alt="First slide">
+                        <img src="/img/poster4.jfif" alt="First slide">
                     </div>
                     <div class="item">
-                        <img src="/img/poster2.png" alt="Second slide">
+                        <img src="/img/poster5.jfif" alt="Second slide">
                     </div>
-                    <div class="item">
-                        <img src="img/poster3.png" alt="Third slide">
-                    </div>
+<!--                    <div class="item">-->
+<!--                        <img src="img/poster3.png" alt="Third slide">-->
+<!--                    </div>-->
                 </div>
                 <!-- 轮播（Carousel）导航 -->
                 <!--<a class="carousel-control left" href="#myCarousel"-->
@@ -599,7 +601,7 @@
         <div class="jot-tab-content row">
             <div class="line">
                 <ul class="col-md-4 no-margin-bottom">
-                    <li class="nav_item col-md-4 active"><a  class="" href="#">热门推荐</a></li>
+                    <li class="nav_item col-md-4 active"><a class="" href="#">热门推荐</a></li>
                 </ul>
             </div>
         </div>
@@ -635,24 +637,28 @@
             <!--</div>-->
 
 
-
             <!--</div>-->
             <div class="content " id="job-content">
                 <div class="col-lg-4 summary-border" id="job-box" v-for="job in jobs">
                     <div class="job-summary">
                         <div class="line-1 row">
-                            <div class="job-name col-md-8"><a :href="'http://localhost:8080/position/'+job.positionId">{{job.title}}</a><span class="create-item">数日前发布<span class="lianxi iconfont icon-lianxi"></span> </span></div>
-                            <div class="job-salary col-md-4  text-right">{{Math.floor(job.salaryDown/1000)}}K-{{Math.floor(job.salaryUp/1000)}}K</div>
+                            <div class="job-name col-md-8"><a :href="'http://localhost:8082/position/'+job.positionId">{{job.title}}</a><span
+                                    class="create-item">数日前发布<span class="lianxi iconfont icon-lianxi"></span> </span>
+                            </div>
+                            <div class="job-salary col-md-4  text-right">
+                                {{Math.floor(job.salaryDown/1000)}}K-{{Math.floor(job.salaryUp/1000)}}K
+                            </div>
                         </div>
                         <div class="line-2 job-require"><!--{{job.requirement}}--></div>
                         <div class="line-3 job-tag-content row">
-                            <ul class="" >
-                                <li class="col-md-3 job-tag" >数据分析</li>
-                                <li class="col-md-3 job-tag" >全栈开发</li>
+                            <ul class="">
+                                <li class="col-md-3 job-tag">数据分析</li>
+                                <li class="col-md-3 job-tag">全栈开发</li>
                             </ul>
                         </div>
                         <div class="company">
-                            <img style="width: 40px;height: 40px" class="img-rounded" :src="'/img/img'+job.companyId+'.jpg'"/>
+                            <img style="width: 40px;height: 40px" class="img-rounded"
+                                 :src="'/img/img'+job.companyId+'.jpg'"/>
                             <div class="company-right">
                                 <div class="row company-name">
                                     <a href="">{{job.companyName}}</a>
@@ -681,7 +687,7 @@
         <div class="jot-tab-content row">
             <div class="line">
                 <ul class="col-md-4 no-margin-bottom">
-                    <li class="nav_item col-md-4 active"><a  class="" href="#">关于我们</a></li>
+                    <li class="nav_item col-md-4 active"><a class="" href="#">关于我们</a></li>
                 </ul>
             </div>
         </div>
@@ -699,7 +705,7 @@
     $(".menu_box").hover(function () {
         $(this).find(".menu_sub").removeClass("hidden");
         $(this).find(".menu_sub").addClass("show");
-    },function () {
+    }, function () {
         $(this).find(".menu_sub").removeClass("show");
         $(this).find(".menu_sub").addClass("hidden");
     });
