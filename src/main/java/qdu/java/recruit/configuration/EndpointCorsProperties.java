@@ -1,11 +1,14 @@
 package qdu.java.recruit.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ConfigurationProperties(prefix = "endpoints.cors")
+//@ConfigurationProperties(prefix = "endpoints.cors")
+@Component
 public class EndpointCorsProperties {
 
     /**

@@ -8,7 +8,7 @@ var box = new Vue({
     mounted: function () {
         this.$nextTick(function () {
             $.ajax({
-                url: "http://localhost:8080/page/" + page,
+                url: "http://localhost:8010/page/" + page,
                 type: "post",
                 dataType: "json",
 //                    jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
@@ -29,7 +29,7 @@ var box = new Vue({
 
                 },
                 error: function (msg) {
-                    window.location.href = "localhost:8080/user/login";
+                    window.location.href = "localhost:8010/user/login";
                 }
             });
 
@@ -41,7 +41,7 @@ function nextPage() {
     page = page + 1;
     if (page <= pageTotal) {
         $.ajax({
-            url: "http://localhost:8080/page/" + page,
+            url: "http://localhost:8010/page/" + page,
             type: "post",
             dataType: "json",
             success: function (msg) {

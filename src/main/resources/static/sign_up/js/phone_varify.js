@@ -28,7 +28,7 @@ function phone_varify_send() {
     re = /^(((13[0-9]{1})|(15[0-9]{1})|(1[0-9]{2}))+\d{8})$/;
     if (re.test(tel)) {
         $.ajax({
-            url: "http://localhost:8080/sms/sendCode" + '?mobile=' + mobile.value,
+            url: "http://localhost:8010/sms/sendCode" + '?mobile=' + mobile.value,
             type: "post",
             dataType: "json",
             success: function (msg) {
@@ -51,14 +51,14 @@ function phone_varify_code() {
     var code_usr = document.getElementById("code").value;
     if (code_usr.length == 4) {
         $.ajax({
-            url: "http://localhost:8080/sms/verifyCode" + "?mobile=" + mobile.value + "&code=" + code_usr,
+            url: "http://localhost:8010/sms/verifyCode" + "?mobile=" + mobile.value + "&code=" + code_usr,
             type: "post",
             dataType: "json",
             success: function (msg) {
                 if (msg == 1) {
 
                     $.ajax({
-                        url: "http://localhost:8080/user/registerPost" + "?mobile=" + mobile.value + "&password=" + pass + "&nickName=" + nickName,
+                        url: "http://localhost:8010/user/registerPost" + "?mobile=" + mobile.value + "&password=" + pass + "&nickName=" + nickName,
                         type: "post",
                         dataType: "json",
                         success: function (output) {
@@ -66,7 +66,7 @@ function phone_varify_code() {
                             if (output == "1") {
                                 swal("注册成功", "注册成功", "success");
                                 setTimeout(function () {
-                                    window.location.href = "http://localhost:8080/user/login";
+                                    window.location.href = "http://localhost:8010/user/login";
                                 }, 3000);
 
                             } else {
@@ -149,7 +149,7 @@ function showPass() {
 // 						//cookie键值对存储
 // 						Cookie.write(strKey, name.value);
 // 					}
-// 					var path="http://localhost:8080/main";
+// 					var path="http://localhost:8010/main";
 // 					window.location.assign(path);
 // 				}else if(result=="0"){
 //

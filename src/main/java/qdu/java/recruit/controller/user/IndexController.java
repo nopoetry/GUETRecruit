@@ -42,7 +42,9 @@ public class IndexController extends BaseController {
      * @return
      */
     @GetMapping(value = "/searchlist")
-    public String search() { return this.userDirect("search_list"); }
+    public String search() {
+        return this.userDirect("search_list");
+    }
 
     /**
      * 职位分类 列表页
@@ -76,6 +78,7 @@ public class IndexController extends BaseController {
 
     /**
      * 用户简历页
+     *
      * @return
      */
     @GetMapping(value = "user/resume")
@@ -85,6 +88,7 @@ public class IndexController extends BaseController {
 
     /**
      * 职位申请成功页
+     *
      * @return
      */
     @GetMapping(value = "user/success")

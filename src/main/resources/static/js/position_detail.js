@@ -52,12 +52,12 @@ var box = new Vue({
 var favorFlag;
 $(document).ready(function () {
     $.ajax({
-        url: "http://localhost:8080/user/favorOrNot/" + posId,
+        url: "http://localhost:8010/user/favorOrNot/" + posId,
         type: "get",
         dataType: "json",
         success: function (msg) {
             if (msg == "0") {
-                $("#favor_tag").css("background-color", "#3992d6").css("border", "1px solid #3992d6").text("收藏");
+                $("#favor_tag").css("background-color", "#32ca99").css("border", "1px solid #32ca99").text("收藏");
                 favorFlag = 0;
             } else {
                 $("#favor_tag").css("background-color", "#707070").css("border", "1px solid #707070").text("取消收藏");
@@ -73,12 +73,12 @@ $(document).ready(function () {
 
 var index = href.lastIndexOf("\/");
 var posId = href.substr(index + 1, href.length);
-// document.getElementById("apply_tag").setAttribute("href","http://localhost:8080/user/apply/"+posId);
-$("#apply_tag").attr("href", "http://localhost:8080/user/apply/" + posId);
+// document.getElementById("apply_tag").setAttribute("href","http://localhost:8010/user/apply/"+posId);
+$("#apply_tag").attr("href", "http://localhost:8010/user/apply/" + posId);
 $("#favor_tag").click(function () {
     if (favorFlag == 0) {
         $.ajax({
-            url: "http://localhost:8080/user/favor/" + posId,
+            url: "http://localhost:8010/user/favor/" + posId,
             type: "get",
             dataType: "text",
             success: function (msg) {
@@ -96,12 +96,12 @@ $("#favor_tag").click(function () {
         window.location.reload();
     } else {
         $.ajax({
-            url: "http://localhost:8080/user/disfavor/" + posId,
+            url: "http://localhost:8010/user/disfavor/" + posId,
             type: "get",
             dataType: "text",
             success: function (msg) {
                 if (msg == "success") {
-                    $("#favor_tag").css("background-color", "#3992d6").css("border", "1px solid #3992d6").text("收藏");
+                    $("#favor_tag").css("background-color", "#32ca99").css("border", "1px solid #32ca99").text("收藏");
                     favorFlag = 0;
                 } else {
                     console.log(msg)
@@ -137,7 +137,7 @@ $("#posId").val(posId);
 //
 //     $.ajax({
 //         type: "post",
-//         url: "http://localhost:8080/user/comment",
+//         url: "http://localhost:8010/user/comment",
 //         data: input,
 //         dataType: "text",
 //         success: function (msg) {

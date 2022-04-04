@@ -2,7 +2,7 @@ var url_type = GetQueryString("type");
 
 $(document).ready(function () {
     $.ajax({
-        url: "http://localhost:8080/user/info",
+        url: "http://localhost:8010/user/info",
         type: "post",
         dataType: "json",
         success: function (data) {
@@ -135,7 +135,7 @@ function infoUpdate() {
 
     $.ajax({
         type: "post",
-        url: "http://localhost:8080/user/info/update",
+        url: "http://localhost:8010/user/info/update",
         data: $("#user_info").serialize(),
         dataType: "text",
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -153,14 +153,14 @@ function infoUpdate() {
 
 function posJump(){
     var id = $("#posId").val();
-    window.location.href = "http://localhost:8080/position/"+id;
+    window.location.href = "http://localhost:8010/position/"+id;
 }
 
 function posRemove(){
     var id = $("#posId").val();
     $.ajax({
         type:"get",
-        url: "http://localhost:8080/user/disfavor/"+id,
+        url: "http://localhost:8010/user/disfavor/"+id,
         dataType:"text",
         success: function(msg){
             console.log(msg);
@@ -273,7 +273,7 @@ var content = new Vue({
 
         /*实现职位页面跳转*/
         // review: function(posId){
-        //     return "$.jump(\'http://localhost:8080/position/"+posId+"\')";
+        //     return "$.jump(\'http://localhost:8010/position/"+posId+"\')";
         // },
 
         /*二级联动选择地区*/

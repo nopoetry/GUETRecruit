@@ -28,7 +28,7 @@ public class Swagger2 {
         return new ApiInfoBuilder()
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
                 .description("招聘网站后端api输出")
-                .termsOfServiceUrl("http://localhost:8080")
+                .termsOfServiceUrl("http://localhost:8010")
                 .contact("babyCoder")
                 .version("1.0")
                 .build();

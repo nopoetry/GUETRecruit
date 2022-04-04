@@ -35,7 +35,7 @@ var box = new Vue({
             };
 
             $.ajax({
-                url: "http://localhost:8080/search",
+                url: "http://localhost:8010/search",
                 type: "post",
                 data: searchItem,
                 dataType: "json",
@@ -83,7 +83,7 @@ function nextPage() {
             page: page
         };
         $.ajax({
-            url: "http://localhost:8080/search",
+            url: "http://localhost:8010/search",
             type: "post",
             data: searchItem,
             dataType: "json",
