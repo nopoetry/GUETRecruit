@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>ZJ招聘后台管理系统 - 主页</title>
+    <title>桂电招聘后台管理系统 - 主页</title>
 
     <link rel="shortcut icon" href="favicon.ico">
     <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
@@ -251,7 +251,7 @@
             data: "",
             success: function (data) {
                 console.log(data);
-                if (data != null && data != "") {
+                if (data != null && data !== "") {
                     result = data;
                     var mapChart = echarts.init(document.getElementById("echarts-map-chart"));
                     var mapoption = {

@@ -1,20 +1,21 @@
 package qdu.java.recruit.controller.admin;
 
 import com.google.gson.Gson;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import qdu.java.recruit.entity.CompanyEntity;
-import qdu.java.recruit.entity.UserAreaEntity;
-import qdu.java.recruit.entity.UserEntity;
-import qdu.java.recruit.entity.WebCountEntity;
+import org.springframework.web.bind.annotation.*;
+import qdu.java.recruit.common.PageInfo;
+import qdu.java.recruit.entity.*;
+import qdu.java.recruit.pojo.HrVo;
 import qdu.java.recruit.service.BackManagerService;
 import sun.security.provider.MD5;
 
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,12 +27,12 @@ public class BackManagerController {
     private BackManagerService backManagerService;
 
     @RequestMapping("/login")
-    public String init(){
+    public String init() {
         return "manager/login";
     }
 
     @RequestMapping("/index")
-    public String index(){
+    public String index() {
         return "manager/index";
     }
 
@@ -56,7 +57,6 @@ public class BackManagerController {
     }
 
 
-
     @RequestMapping("/widgets")
     public String widgets() {
         return "manager/widgets";
@@ -64,28 +64,19 @@ public class BackManagerController {
 
     @RequestMapping("/adminlogin")
     @ResponseBody
-    public Map<String,Object> login(Long username, String password){
-        Map<String,Object> map = new HashMap<>();
-        int result = backManagerService.backLogin(username, password);
-        if (result==0){
-            map.put("state","0");
-        }
-        else {
-            map.put("state","1");
-        }
-        return map;
+    public AdminEntity login(Long username, String password) {
+        return backManagerService.backLogin(username, password);
     }
 
     @RequestMapping("/addcompany")
     @ResponseBody
-    public Map<String,Object> addcompany(String companyName,String companyCode,String description){
-        Map<String,Object> map = new HashMap<>();
-        int result = backManagerService.addCompany(companyName,companyCode,description);
-        if (result==0){
-            map.put("state","0");
-        }
-        else {
-            map.put("state","1");
+    public Map<String, Object> addcompany(String companyName, String companyCode, String description) {
+        Map<String, Object> map = new HashMap<>();
+        int result = backManagerService.addCompany(companyName, companyCode, description);
+        if (result == 0) {
+            map.put("state", "0");
+        } else {
+            map.put("state", "1");
         }
         return map;
     }
@@ -93,50 +84,69 @@ public class BackManagerController {
 
     @RequestMapping(value = "/userareachart", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> area(){
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> area() {
+        Map<String, Object> map = new HashMap<>();
         ArrayList<UserAreaEntity> area = backManagerService.userArea();
         UserAreaEntity userAreaEntity;
-        for(int i=0; i<area.size(); i++){
+        for (int i = 0; i < area.size(); i++) {
             userAreaEntity = area.get(i);
-            map.put(userAreaEntity.getArea(),userAreaEntity.getUsernum());
+            map.put(userAreaEntity.getArea(), userAreaEntity.getUsernum());
         }
         return map;
     }
 
     @RequestMapping("webcount")
     @ResponseBody
-    public Map<String,Object> webcount(){
-        Map<String,Object> map = new HashMap<>();
+    public Map<String, Object> webcount() {
+        Map<String, Object> map = new HashMap<>();
         WebCountEntity webCountEntity = backManagerService.getWebCount();
-        map.put("companynum",webCountEntity.getCompanynum());
-        map.put("offernum" ,webCountEntity.getOffernum());
-        map.put("usernum",webCountEntity.getUsernum());
-        map.put("visitnum",webCountEntity.getVisitnum());
+        map.put("companynum", webCountEntity.getCompanynum());
+        map.put("offernum", webCountEntity.getOffernum());
+        map.put("usernum", webCountEntity.getUsernum());
+        map.put("visitnum", webCountEntity.getVisitnum());
         System.out.println(map);
         return map;
     }
 
-    @RequestMapping("getcompany")
+    @GetMapping("getAllCompany")
     @ResponseBody
-    public String getCompany(){
-        Gson gson = new Gson();
-        ArrayList<CompanyEntity> companyEntities = backManagerService.getAllCompanies();
-        String companyInfo = gson.toJson(companyEntities);
-        System.out.println(companyInfo);
-        return companyInfo;
+    public List<CompanyEntity> getAllCompany() {
+        return backManagerService.getAllCompanies();
     }
 
 
-    @RequestMapping("getuser")
+    @RequestMapping("getAllUser")
     @ResponseBody
-    public String getUser(){
-        Gson gson = new Gson();
-        ArrayList<UserEntity> userEntities = backManagerService.getAllUsers();
-        String userInfo = gson.toJson(userEntities);
-        System.out.println(userInfo);
-        return userInfo;
+    public List<UserEntity> getUser() {
+        return backManagerService.getAllUsers();
     }
 
+    @GetMapping("getAllUserByCondition")
+    @ResponseBody
+    public PageInfo<User> getAllUserByCondition(
+            @RequestParam("pageNum") Integer pageNum,
+            @RequestParam("pageSize") Integer pageSize,
+            @RequestParam("stuNum") Integer stuNum) {
+        return backManagerService.getAllUserByCondition(pageNum, pageSize, stuNum);
+    }
+
+    @GetMapping("getAllHrByCondition")
+    @ResponseBody
+    public PageInfo<HrVo> getAllHrByCondition(
+            @RequestParam("pageNum") Integer pageNum,
+            @RequestParam("pageSize") Integer pageSize,
+            @RequestParam("mobile") String mobile) {
+        return backManagerService.getAllHrByCondition(pageNum, pageSize, mobile);
+    }
+
+    @DeleteMapping
+    @ResponseBody
+    public Map<String, Object> deleteUserByUserId(@RequestParam("userId") Integer userId, @RequestParam("role") String role) {
+        Map<String, Object> map = new HashMap<>();
+        int result = 0;
+        result = backManagerService.deleteUser(userId, role);
+        map.put("state", result);
+        return map;
+    }
 
 }

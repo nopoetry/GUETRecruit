@@ -1,14 +1,14 @@
 package qdu.java.recruit.service;
 
-import qdu.java.recruit.entity.CompanyEntity;
-import qdu.java.recruit.entity.UserAreaEntity;
-import qdu.java.recruit.entity.UserEntity;
-import qdu.java.recruit.entity.WebCountEntity;
+import qdu.java.recruit.common.PageInfo;
+import qdu.java.recruit.entity.*;
+import qdu.java.recruit.pojo.HrVo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface BackManagerService {
-    int backLogin(Long userid, String password);
+    AdminEntity backLogin(Long userid, String password);
 
     ArrayList<UserAreaEntity> userArea();
 
@@ -19,4 +19,10 @@ public interface BackManagerService {
     WebCountEntity getWebCount();
 
     int addCompany(String companyName, String companyCode, String description);
+
+    PageInfo<User> getAllUserByCondition(Integer pageNum, Integer pageSize, Integer stuNum);
+
+    PageInfo<HrVo> getAllHrByCondition(Integer pageNum, Integer pageSize, String mobile);
+
+    int deleteUser(Integer userId, String role);
 }

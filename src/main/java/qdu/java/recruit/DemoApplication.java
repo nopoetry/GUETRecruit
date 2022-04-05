@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @ServletComponentScan
-@MapperScan("qdu.java.recruit.mapper")
+//@MapperScan("qdu.java.recruit.mapper")
 @EnableScheduling
 public class DemoApplication {
 
