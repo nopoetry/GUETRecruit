@@ -5,17 +5,24 @@ import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import qdu.java.recruit.constant.GlobalConst;
 import qdu.java.recruit.controller.BaseController;
+import qdu.java.recruit.dao.HrDynamicSqlSupport;
+import qdu.java.recruit.dao.HrMapper;
 import qdu.java.recruit.entity.*;
 import qdu.java.recruit.pojo.ApplicationPositionHRBO;
+import qdu.java.recruit.pojo.HrVo;
+import qdu.java.recruit.pojo.UserRoleVo;
 import qdu.java.recruit.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 /**
   <p>
@@ -48,6 +55,13 @@ public class HRController extends BaseController{
 
     @Autowired
     DepartmentService departmentService;
+
+    private HrMapper hrMapper;
+
+    @Autowired @Qualifier("dynamicSqlRepositoryHr")
+    public void setHrMapper(HrMapper hrMapper) {
+        this.hrMapper = hrMapper;
+    }
 
     /**
      * 用户注册返回 0 -> 失败 1 -> 成功
@@ -104,20 +118,26 @@ public class HRController extends BaseController{
      * @return
      */
     @PostMapping(value = "hr/login")
-    public int userLogin(HttpSession httpSession,
-                         @RequestParam String mobile,
-                         @RequestParam String password) {
+    public UserRoleVo userLogin(HttpSession httpSession,
+                          @RequestParam String mobile,
+                          @RequestParam String password) {
 
         if (mobile == null || password == null) {
-            return 0;
+            return null;
         }
 
         if (hrService.loginHR(mobile, password)) {
-
             httpSession.setAttribute("hr", hrService.getHRByMobile(mobile));
-            return 1;
+            Hr hr = hrMapper.selectOne(h -> h.where(HrDynamicSqlSupport.hrmobile, isEqualTo(mobile))).orElse(new Hr());
+            UserRoleVo userRoleVo = new UserRoleVo();
+            userRoleVo.setEmail(hr.getHremail());
+            userRoleVo.setMobile(hr.getHrmobile());
+            userRoleVo.setName(hr.getHrname());
+            userRoleVo.setId(hr.getHrid());
+            userRoleVo.setRole("1");
+            return userRoleVo;
         }
-        return 0;
+        return null;
     }
 
 

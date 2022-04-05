@@ -1,25 +1,24 @@
 package qdu.java.recruit.controller.admin;
 
-import com.google.gson.Gson;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import qdu.java.recruit.annotation.ResponseBodyResult;
+import qdu.java.recruit.common.AlertException;
 import qdu.java.recruit.common.PageInfo;
+import qdu.java.recruit.constant.ResultCode;
 import qdu.java.recruit.entity.*;
 import qdu.java.recruit.pojo.HrVo;
+import qdu.java.recruit.pojo.UserRoleVo;
 import qdu.java.recruit.service.BackManagerService;
-import sun.security.provider.MD5;
 
-import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-@Controller
+@ResponseBodyResult
+@RestController
 @RequestMapping("/manager")
 public class BackManagerController {
 
@@ -62,10 +61,19 @@ public class BackManagerController {
         return "manager/widgets";
     }
 
-    @RequestMapping("/adminlogin")
-    @ResponseBody
-    public AdminEntity login(Long username, String password) {
-        return backManagerService.backLogin(username, password);
+    @PostMapping("/adminlogin")
+    public UserRoleVo login(Long username, String password) {
+        AdminEntity adminEntity = backManagerService.backLogin(username, password);
+        if (adminEntity == null) {
+            throw new AlertException(ResultCode.USER_LOGIN_ERROR);
+        }
+        UserRoleVo userRoleVo = new UserRoleVo();
+        userRoleVo.setEmail(adminEntity.getEmail());
+        userRoleVo.setMobile(adminEntity.getMobile());
+        userRoleVo.setName(adminEntity.getName());
+        userRoleVo.setId((int) adminEntity.getUserid());
+        userRoleVo.setRole("2");
+        return userRoleVo;
     }
 
     @RequestMapping("/addcompany")

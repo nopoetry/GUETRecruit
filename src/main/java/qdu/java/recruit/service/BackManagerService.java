@@ -5,7 +5,6 @@ import qdu.java.recruit.entity.*;
 import qdu.java.recruit.pojo.HrVo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface BackManagerService {
     AdminEntity backLogin(Long userid, String password);
