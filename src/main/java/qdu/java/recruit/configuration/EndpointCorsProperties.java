@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@ConfigurationProperties(prefix = "endpoints.cors")
-@Component
+//@Component
 public class EndpointCorsProperties {
 
     /**
