@@ -1,6 +1,7 @@
 package qdu.java.recruit.mapper;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import qdu.java.recruit.entity.ApplicationEntity;
@@ -9,6 +10,7 @@ import qdu.java.recruit.pojo.ApplicationPositionHRBO;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+@Mapper
 public interface ApplicationMapper {
 
     @Select("select * from application where resumeId = #{resumeId}")

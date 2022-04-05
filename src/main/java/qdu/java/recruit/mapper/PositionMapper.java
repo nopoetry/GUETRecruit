@@ -9,6 +9,7 @@ import qdu.java.recruit.pojo.PositionCompanyBO;
 
 import java.util.ArrayList;
 
+@Mapper
 public interface PositionMapper {
 
     @Select("select * from position where statePub = 1")

@@ -6,7 +6,7 @@ import qdu.java.recruit.pojo.UserCommentBO;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
+@Mapper
 public interface CommentMapper {
 
     @Select("select * from comment where userId = #{userId}")

@@ -1,19 +1,17 @@
 package qdu.java.recruit.mapper;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import qdu.java.recruit.entity.CompanyEntity;
-import qdu.java.recruit.entity.UserAreaEntity;
-import qdu.java.recruit.entity.UserEntity;
-import qdu.java.recruit.entity.WebCountEntity;
+import qdu.java.recruit.entity.*;
 
 import java.util.ArrayList;
 
-
+@Mapper
 public interface BackManagerMapper {
-    @Select("SELECT COUNT(*) FROM `admin` WHERE userid = #{userid} AND password = md5(#{password})")
-    Integer backLogin(@Param("userid") Long userid,@Param("password") String password);
+    @Select("SELECT * FROM `admin` WHERE userid = #{userid} AND password = md5(#{password})")
+    AdminEntity backLogin(@Param("userid") Long userid, @Param("password") String password);
 
     @Select("SELECT COUNT(*) AS 'usernum',`province` AS 'area' FROM `user` GROUP BY `province`")
     ArrayList<UserAreaEntity> userArea();

@@ -1,14 +1,12 @@
 package qdu.java.recruit.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import qdu.java.recruit.entity.FavorEntity;
 import qdu.java.recruit.pojo.FavorPositionBO;
 
 import java.util.ArrayList;
 
+@Mapper
 public interface FavorMapper {
 
     @Select("select * from favor where userId = #{userId}")

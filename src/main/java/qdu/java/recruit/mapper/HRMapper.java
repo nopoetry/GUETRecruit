@@ -1,9 +1,6 @@
 package qdu.java.recruit.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import qdu.java.recruit.entity.HREntity;
 
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ import java.util.ArrayList;
  private int departmentId;
  * </P>
  */
+@Mapper
 public interface HRMapper {
     /**
      * <p>`hrId` int(11) NOT NULL AUTO_INCREMENT,
@@ -48,7 +46,7 @@ public interface HRMapper {
             "values(#{hrMobile},#{hrPassword},#{hrName},#{hrEmail},#{description},#{departmentId})"})
     int saveHR(HREntity hrEntity);
 
-    @Select("select * from hr where hrMobile = #{hrMobile} limit 1")
-    HREntity getHRByMobile(@Param("mobile") String moblie);
+    @Select("select * from hr where hrMobile = #{mobile} limit 1")
+    HREntity getHRByMobile(@Param("mobile") String mobile);
 
 }

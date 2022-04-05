@@ -1,11 +1,13 @@
 package qdu.java.recruit.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import qdu.java.recruit.entity.DepartmentEntity;
 
 import java.util.List;
 
+@Mapper
 public interface DepartmentMapper {
 
     @Select("select * from department where departmentId = #{departId}")

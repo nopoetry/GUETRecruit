@@ -1,11 +1,9 @@
 package qdu.java.recruit.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import qdu.java.recruit.entity.ResumeEntity;
 
+@Mapper
 public interface ResumeMapper {
 
     @Select("select resumeId from resume where userId = #{userId} limit 1")
