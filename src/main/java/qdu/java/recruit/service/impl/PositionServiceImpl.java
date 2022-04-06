@@ -34,22 +34,22 @@ public class PositionServiceImpl implements PositionService {
      * @param user
      * @param page
      * @param limit
+     *
      * @return
      */
     @Override
     public List<PositionCompanyBO> recPosition(UserEntity user, int page, int limit) {
 
         //所有职位列表
-        List<PositionEntity> posList = new ArrayList<>();
+        List<PositionEntity> posList;
         posList = positionMapper.listPosAll();
 
         //计算得推荐职位列表
-        List<PositionCompanyBO> recList = new ArrayList<>();
+        List<PositionCompanyBO> recList;
 
         //所有职位Id -> 点击量
-        HashMap<Integer, Integer> posMap = new HashMap<Integer, Integer>();
-        for (PositionEntity pos : posList
-                ) {
+        HashMap<Integer, Integer> posMap = new HashMap<>();
+        for (PositionEntity pos : posList) {
             posMap.put(pos.getPositionId(), pos.getHits());
         }
 
@@ -73,14 +73,15 @@ public class PositionServiceImpl implements PositionService {
      * @param keyword
      * @param page
      * @param limit
+     *
      * @return
      */
     @Override
-    public PageInfo<PositionCompanyBO> searchPosition(String keyword,String orderBy, int page, int limit) {
+    public PageInfo<PositionCompanyBO> searchPosition(String keyword, String orderBy, int page, int limit) {
 
         PageHelper.startPage(page, limit);
 
-        List<PositionCompanyBO> searchList = positionMapper.listSearchPos("%" + keyword + "%",orderBy);
+        List<PositionCompanyBO> searchList = positionMapper.listSearchPos("%" + keyword + "%", orderBy);
 
         return new PageInfo<>(searchList);
     }
@@ -91,6 +92,7 @@ public class PositionServiceImpl implements PositionService {
      * @param categoryId
      * @param page
      * @param limit
+     *
      * @return
      */
     @Override
@@ -107,6 +109,7 @@ public class PositionServiceImpl implements PositionService {
      * 根据职位Id查找返回职位
      *
      * @param positionId
+     *
      * @return
      */
     @Override
@@ -115,12 +118,14 @@ public class PositionServiceImpl implements PositionService {
     }
 
     /**
-     *采用PositionEntity而不是PositionCompanyBO，因为我不想让hr权限过高
+     * 采用PositionEntity而不是PositionCompanyBO，因为我不想让hr权限过高
+     *
      * @param hrid
+     *
      * @return
      */
     @Override
-    public PageInfo<PositionEntity> listPositionByHr(int hrid,int page, int limit) {
+    public PageInfo<PositionEntity> listPositionByHr(int hrid, int page, int limit) {
         int total = positionMapper.countHRPos(hrid);
         PageHelper.startPage(page, limit);
         List<PositionEntity> posList = listPositionByHr(hrid);
@@ -157,7 +162,7 @@ public class PositionServiceImpl implements PositionService {
 
     public int updatePositionState(int statePub, int posId) {
 
-        return positionMapper.updatePositionState(statePub,posId);
+        return positionMapper.updatePositionState(statePub, posId);
     }
 
     @Override

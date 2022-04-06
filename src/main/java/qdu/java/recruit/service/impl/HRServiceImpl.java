@@ -3,6 +3,8 @@ package qdu.java.recruit.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+import qdu.java.recruit.common.AlertException;
+import qdu.java.recruit.constant.ResultCode;
 import qdu.java.recruit.entity.HREntity;
 import qdu.java.recruit.mapper.HRMapper;
 import qdu.java.recruit.service.HRService;
@@ -70,15 +72,9 @@ public class HRServiceImpl implements HRService {
         String passwordDB = HRMapper.getHRByMobile(mobile).getHrPassword();
 
         try {
-            if (this.EncodingByMd5(password).equals(passwordDB)) {
-                return true;
-            }
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println("md5加密出错");
-        } catch (UnsupportedEncodingException e) {
-            System.out.println("编码转化错误");
-        } finally {
-            return false;
+            return this.EncodingByMd5(password).equals(passwordDB);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            throw new AlertException(ResultCode.SYSTEM_ERROR);
         }
     }
 

@@ -7,7 +7,7 @@ import qdu.java.recruit.entity.ResumeEntity;
 public interface ResumeMapper {
 
     @Select("select resumeId from resume where userId = #{userId} limit 1")
-    int getResumeId(@Param("userId") int userId);
+    Integer getResumeId(@Param("userId") int userId);
 
     @Select("select * from resume where userId = #{userId} limit 1")
     ResumeEntity getResumeById(@Param("userId") int userId);

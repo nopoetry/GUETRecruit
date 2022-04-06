@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import qdu.java.recruit.annotation.ResponseBodyResult;
 import qdu.java.recruit.constant.GlobalConst;
 import qdu.java.recruit.controller.BaseController;
 import qdu.java.recruit.dao.HrDynamicSqlSupport;
@@ -36,6 +37,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
  </p>
  */
 @RestController
+@ResponseBodyResult
 @Api(value = "HR接口",description = "HR接口")
 public class HRController extends BaseController{
 
@@ -117,7 +119,7 @@ public class HRController extends BaseController{
      * @param password
      * @return
      */
-    @PostMapping(value = "hr/login")
+    @PostMapping(value = "/hr/login")
     public UserRoleVo userLogin(HttpSession httpSession,
                           @RequestParam String mobile,
                           @RequestParam String password) {

@@ -33,18 +33,18 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="admin" domainObjectName="Admin"/>-->
-<!--        <table tableName="user" domainObjectName="User"/>-->
+        <table tableName="admin" domainObjectName="Admin"/>
+        <table tableName="user" domainObjectName="User"/>
                 <table tableName="hr" domainObjectName="Hr"/>
-<!--        <table tableName="application" domainObjectName="Application"/>-->
-<!--        <table tableName="category" domainObjectName="Category"/>-->
-<!--        <table tableName="comment" domainObjectName="Comment"/>-->
-<!--        <table tableName="company" domainObjectName="Company"/>-->
-<!--        <table tableName="department" domainObjectName="Department"/>-->
-<!--        <table tableName="favor" domainObjectName="Favor"/>-->
-<!--        <table tableName="position" domainObjectName="Position"/>-->
-<!--        <table tableName="resume" domainObjectName="Resume"/>-->
-<!--        <table tableName="scores" domainObjectName="Scores"/>-->
+        <table tableName="application" domainObjectName="Application"/>
+        <table tableName="category" domainObjectName="Category"/>
+        <table tableName="comment" domainObjectName="Comment"/>
+        <table tableName="company" domainObjectName="Company"/>
+        <table tableName="department" domainObjectName="Department"/>
+        <table tableName="favor" domainObjectName="Favor"/>
+        <table tableName="position" domainObjectName="Position"/>
+        <table tableName="resume" domainObjectName="Resume"/>
+        <table tableName="scores" domainObjectName="Scores"/>
 
     </context>
 </generatorConfiguration>

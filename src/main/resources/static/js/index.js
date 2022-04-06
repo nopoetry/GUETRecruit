@@ -29,7 +29,9 @@ var box = new Vue({
 
                 },
                 error: function (msg) {
-                    window.location.href = "localhost:8010/user/login";
+                    console.log(msg)
+                    // window.location.href = "http://localhost:8010/user/login";
+                    // layer.msg(msg);
                 }
             });
 

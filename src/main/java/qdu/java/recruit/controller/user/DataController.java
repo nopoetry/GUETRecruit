@@ -146,6 +146,7 @@ public class DataController extends BaseController {
             List<PositionCompanyBO> posInfo = positionService.recPosition(user, page, limit);
             output.put("posInfo", posInfo);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return "out";
         }
 

@@ -279,7 +279,7 @@ public class ArithmeticUtil {
         //定义单个职位Id，单个用户Id,单个简历Id
         int posItemId;
         int userItemId;
-        int resumeItemId;
+        Integer resumeItemId;
 
         //遍历所有职位，填充好感度键值对图
         for (int i = 0; i < listPosAll.size(); i++) {
@@ -288,6 +288,9 @@ public class ArithmeticUtil {
             for (int j = 0; j < listUserAll.size(); j++) {
                 userItemId = listUserAll.get(j).getUserId();
                 resumeItemId = ariConst.resumeMapper.getResumeId(userItemId);
+                if (resumeItemId == null) {
+                    continue;
+                }
 
                 if (ariConst.applicationMapper.getApplication(resumeItemId, posItemId) != null) {
                     itemArray[j] = 3;

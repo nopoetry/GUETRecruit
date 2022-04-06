@@ -1,11 +1,14 @@
 package qdu.java.recruit.controller.admin;
 
+import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import qdu.java.recruit.annotation.ResponseBodyResult;
 import qdu.java.recruit.common.AlertException;
 import qdu.java.recruit.common.PageInfo;
 import qdu.java.recruit.constant.ResultCode;
+import qdu.java.recruit.dao.CompanyMapper;
 import qdu.java.recruit.entity.*;
 import qdu.java.recruit.pojo.HrVo;
 import qdu.java.recruit.pojo.UserRoleVo;
@@ -24,6 +27,14 @@ public class BackManagerController {
 
     @Autowired
     private BackManagerService backManagerService;
+
+    private CompanyMapper companyMapper;
+
+    @Autowired
+    @Qualifier("dynamicSqlRepositoryCompany")
+    public void setCompanyMapper(CompanyMapper companyMapper) {
+        this.companyMapper = companyMapper;
+    }
 
     @RequestMapping("/login")
     public String init() {
@@ -76,16 +87,36 @@ public class BackManagerController {
         return userRoleVo;
     }
 
-    @RequestMapping("/addcompany")
+
+    @GetMapping("getAllCompany")
     @ResponseBody
-    public Map<String, Object> addcompany(String companyName, String companyCode, String description) {
+    public List<Company> getAllCompany() {
+        return companyMapper.select(QueryExpressionDSL::where);
+    }
+
+    @PostMapping("/addCompany")
+    public Map<String, Object> addCompany(@RequestBody Company company) {
         Map<String, Object> map = new HashMap<>();
-        int result = backManagerService.addCompany(companyName, companyCode, description);
-        if (result == 0) {
-            map.put("state", "0");
-        } else {
-            map.put("state", "1");
-        }
+        company.setCompanylogo(1);
+        company.setState(1);
+        int result = companyMapper.insert(company);
+        map.put("state", result);
+        return map;
+    }
+
+    @PutMapping("/updateCompany")
+    public Map<String, Object> updateCompany(@RequestBody Company company) {
+        Map<String, Object> map = new HashMap<>();
+        int result = companyMapper.updateByPrimaryKeySelective(company);
+        map.put("state", result);
+        return map;
+    }
+
+    @DeleteMapping("/deleteCompany")
+    public Map<String, Object> deleteCompany(@RequestParam Integer companyId) {
+        Map<String, Object> map = new HashMap<>();
+        int result = companyMapper.deleteByPrimaryKey(companyId);
+        map.put("state", result);
         return map;
     }
 
@@ -116,13 +147,6 @@ public class BackManagerController {
         return map;
     }
 
-    @GetMapping("getAllCompany")
-    @ResponseBody
-    public List<CompanyEntity> getAllCompany() {
-        return backManagerService.getAllCompanies();
-    }
-
-
     @RequestMapping("getAllUser")
     @ResponseBody
     public List<UserEntity> getUser() {
@@ -149,7 +173,8 @@ public class BackManagerController {
 
     @DeleteMapping
     @ResponseBody
-    public Map<String, Object> deleteUserByUserId(@RequestParam("userId") Integer userId, @RequestParam("role") String role) {
+    public Map<String, Object> deleteUserByUserId(@RequestParam("userId") Integer userId,
+                                                  @RequestParam("role") String role) {
         Map<String, Object> map = new HashMap<>();
         int result = 0;
         result = backManagerService.deleteUser(userId, role);

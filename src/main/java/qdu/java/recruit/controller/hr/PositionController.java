@@ -1,12 +1,20 @@
 package qdu.java.recruit.controller.hr;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import net.sf.json.JSONObject;
+import org.mybatis.dynamic.sql.render.RenderingStrategies;
+import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import qdu.java.recruit.annotation.ResponseBodyResult;
+import qdu.java.recruit.common.AlertException;
 import qdu.java.recruit.constant.GlobalConst;
+import qdu.java.recruit.constant.ResultCode;
 import qdu.java.recruit.controller.BaseController;
+import qdu.java.recruit.dao.*;
 import qdu.java.recruit.entity.*;
 import qdu.java.recruit.service.*;
 
@@ -16,23 +24,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class PositionController extends BaseController{
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+
+@RestController
+@ResponseBodyResult
+public class PositionController extends BaseController {
     /**
      * postion part
      * private int positionId;
-     private String title; *
-     private String requirement; *
-     private int quantity; *
-     private String workCity; *
-     private int salaryUp; *
-     private int salaryDown; *
-     private Date releaseDate;
-     private Date validDate;
-     private int statePub; *
-     private int hits;
-     private int categoryId;
-     private int departmentId;
-     private int hrIdPub;
+     * private String title; *
+     * private String requirement; *
+     * private int quantity; *
+     * private String workCity; *
+     * private int salaryUp; *
+     * private int salaryDown; *
+     * private Date releaseDate;
+     * private Date validDate;
+     * private int statePub; *
+     * private int hits;
+     * private int categoryId;
+     * private int departmentId;
+     * private int hrIdPub;
      */
 
     @Autowired
@@ -50,9 +62,27 @@ public class PositionController extends BaseController{
     @Autowired
     CompanyService companyService;
 
+    private PositionMapper positionMapper;
+
+    @Autowired
+    @Qualifier("dynamicSqlRepositoryPosition")
+    public void setPositionMapper(PositionMapper positionMapper) {
+        this.positionMapper = positionMapper;
+    }
+
+    private HrMapper hrMapper;
+
+    @Autowired
+    @Qualifier("dynamicSqlRepositoryHr")
+    public void setHrMapper(HrMapper hrMapper) {
+        this.hrMapper = hrMapper;
+    }
+
     /**
      * 职位信息表
+     *
      * @param request
+     *
      * @return
      */
     @GetMapping("/hr{id}/position/{page}")
@@ -60,7 +90,7 @@ public class PositionController extends BaseController{
     public String showPostionInfo(HttpServletRequest request,
                                   @PathVariable int id,
                                   @PathVariable int page,
-                                  @RequestParam(value = "limit", defaultValue = "12") int limit){
+                                  @RequestParam(value = "limit", defaultValue = "12") int limit) {
 
         HREntity hr = this.getHR(request);
 
@@ -72,30 +102,74 @@ public class PositionController extends BaseController{
         page = page < 1 || page > GlobalConst.MAX_PAGE ? 1 : page;
 
 
-        PageInfo<PositionEntity> positionEntities = positionService.listPositionByHr(id,page,limit);
+        PageInfo<PositionEntity> positionEntities = positionService.listPositionByHr(id, page, limit);
 
         Map output = new TreeMap();
         output.put("title", ("第" + page + "页"));
         output.put("hr", hr);
-        output.put("positions",positionEntities);
+        output.put("positions", positionEntities);
 
         JSONObject jsonObject = JSONObject.fromObject(output);
 
         return jsonObject.toString();
     }
 
+    /**
+     * 职位信息表
+     *
+     * @param request
+     *
+     * @return
+     */
+    @GetMapping("/position/getByHr")
+    @ResponseBody
+    public qdu.java.recruit.common.PageInfo<Position> getPositionsByHr(HttpServletRequest request,
+                                                                       @RequestParam(value = "hrid",
+                                                                               required = false) Integer hrid,
+                                                                       @RequestParam("pageNum") Integer pageNum,
+                                                                       @RequestParam("pageSize") Integer pageSize) {
+
+        HREntity hr = this.getHR(request);
+
+        if (hr != null) {
+            hrid = hr.getHrId();
+        }
+
+        // 查询总人数
+        SelectStatementProvider count = select(count())
+                .from(PositionDynamicSqlSupport.position)
+                .where(PositionDynamicSqlSupport.hridpub, isEqualToWhenPresent(hrid))
+                .build().render(RenderingStrategies.MYBATIS3);
+        long totalSize = positionMapper.count(count);
+        PageHelper.startPage(pageNum, pageSize);
+        SelectStatementProvider statementProvider = select(PositionMapper.selectList)
+                .from(PositionDynamicSqlSupport.position)
+                .where(PositionDynamicSqlSupport.hridpub, isEqualToWhenPresent(hrid))
+                .and(PositionDynamicSqlSupport.statepub, isEqualTo(1))
+                .orderBy(PositionDynamicSqlSupport.releasedate.descending())
+                .build().render(RenderingStrategies.MYBATIS3);
+        List<Position> positionList = positionMapper.selectMany(statementProvider);
+        qdu.java.recruit.common.PageInfo<Position> pageInfo = new qdu.java.recruit.common.PageInfo<>();
+        pageInfo.setPageData(positionList);
+        pageInfo.setTotalSize(totalSize);
+        pageInfo.setPageNum(pageNum);
+        return pageInfo;
+    }
+
 
     /**
      * 职位详情
+     *
      * @param request
      * @param id
+     *
      * @return
      */
     @PostMapping(value = "/hr/position/{id}")
     @ResponseBody
     public String getPosition(HttpServletRequest request, @PathVariable int id) {
 
-        PositionEntity position = valide(request,id);
+        PositionEntity position = valide(request, id);
 
         //所属部门信息
         DepartmentEntity department = departmentService.getDepartment(position.getDepartmentId());
@@ -121,22 +195,24 @@ public class PositionController extends BaseController{
     }
 
     @PostMapping("/position{id}/delete")
-    public int deletePosition(HttpServletRequest request,@PathVariable int id) {
-        valide(request,id);
+    public int deletePosition(HttpServletRequest request, @PathVariable int id) {
+        valide(request, id);
         return positionService.deletePosition(id);
 
     }
 
     /**
      * private String title; *
-     private String requirement; *
-     private int quantity; *
-     private String workCity; *
-     private int salaryUp; *
-     private int salaryDown; *
-     private Date validDate;
+     * private String requirement; *
+     * private int quantity; *
+     * private String workCity; *
+     * private int salaryUp; *
+     * private int salaryDown; *
+     * private Date validDate;
+     *
      * @param request
      * @param id
+     *
      * @return
      */
     @PostMapping("/position{id}/update")
@@ -148,8 +224,8 @@ public class PositionController extends BaseController{
                               @RequestParam String workCity,
                               @RequestParam int salaryDown,
                               @RequestParam Date validDate
-                              ) {
-        PositionEntity positionEntity = valide(request,id);
+    ) {
+        PositionEntity positionEntity = valide(request, id);
         positionEntity.setTitle(title);
         positionEntity.setRequirement(requirement);
         positionEntity.setQuantity(quantity);
@@ -161,51 +237,61 @@ public class PositionController extends BaseController{
     }
 
     /**
-     *职位下架,即不会在出现
+     * 职位下架,即不会在出现
+     *
      * @param request
      * @param id
+     *
      * @return
      */
     @PostMapping("/position{id}/withdraw")
     public int withdrawPosition(HttpServletRequest request,
                                 @PathVariable int id) {
-        PositionEntity positionEntity = valide(request,id);
+        PositionEntity positionEntity = valide(request, id);
         positionEntity.setStatePub(0);//0为下架
         return positionService.updatePosition(positionEntity);
     }
 
+    /**
+     * 新增职位
+     * @param modelMap
+     * @param request
+     * @param id
+     * @param positionEntity
+     * @return
+     */
     @PostMapping("hr{id}/position/create")
-    public int createPosition(ModelMap modelMap, HttpServletRequest request, @PathVariable int id, PositionEntity positionEntity) {
+    public int createPosition(ModelMap modelMap, HttpServletRequest request, @PathVariable int id,
+                              PositionEntity positionEntity) {
         HREntity hr = this.getHR(request);
         List<CategoryEntity> categoryEntities = categoryService.getAll();
-        if(hr == null) {
+        if (hr == null) {
             this.errorDirect_404();
         }
-            id = hr.getHrId();
-            modelMap.put("categoryEntities",categoryEntities);
-            positionEntity.setReleaseDate(new Date());
-            positionEntity.setStatePub(1);
-            return positionService.savePosition(positionEntity);
-
-
+        id = hr.getHrId();
+        modelMap.put("categoryEntities", categoryEntities);
+        positionEntity.setReleaseDate(new Date());
+        positionEntity.setStatePub(1);
+        return positionService.savePosition(positionEntity);
     }
 
     /**
      * 权限验证
+     *
      * @param request
      * @param id
+     *
      * @return
      */
-    public PositionEntity valide(HttpServletRequest request,int id) {
+    public PositionEntity valide(HttpServletRequest request, int id) {
         HREntity hr = this.getHR(request);
         PositionEntity position = positionService.getPositionById(id);
-        if(hr == null || position == null) {
+        if (hr == null || position == null) {
             this.errorDirect_404();
             return null;
-        }
-        else {
+        } else {
             int hrid = hr.getHrId();
-            if(position.getHrIdPub() != hrid) {
+            if (position.getHrIdPub() != hrid) {
                 this.errorDirect_404();
                 return null;
             }
