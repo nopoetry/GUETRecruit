@@ -16,13 +16,11 @@ import qdu.java.recruit.constant.ResultCode;
 import qdu.java.recruit.controller.BaseController;
 import qdu.java.recruit.dao.*;
 import qdu.java.recruit.entity.*;
+import qdu.java.recruit.pojo.HrVo;
 import qdu.java.recruit.service.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
@@ -64,18 +62,31 @@ public class PositionController extends BaseController {
 
     private PositionMapper positionMapper;
 
-    @Autowired
-    @Qualifier("dynamicSqlRepositoryPosition")
+    private HrMapper hrMapper;
+
+    private DepartmentMapper departmentMapper;
+
+    private CompanyMapper companyMapper;
+
+    @Autowired @Qualifier("dynamicSqlRepositoryDepartment")
+    public void setDepartmentMapper(DepartmentMapper departmentMapper) {
+        this.departmentMapper = departmentMapper;
+    }
+
+    @Autowired @Qualifier("dynamicSqlRepositoryPosition")
     public void setPositionMapper(PositionMapper positionMapper) {
         this.positionMapper = positionMapper;
     }
 
-    private HrMapper hrMapper;
 
-    @Autowired
-    @Qualifier("dynamicSqlRepositoryHr")
+    @Autowired @Qualifier("dynamicSqlRepositoryHr")
     public void setHrMapper(HrMapper hrMapper) {
         this.hrMapper = hrMapper;
+    }
+
+    @Autowired @Qualifier("dynamicSqlRepositoryCompany")
+    public void setCompanyMapper(CompanyMapper companyMapper) {
+        this.companyMapper = companyMapper;
     }
 
     /**
@@ -100,52 +111,41 @@ public class PositionController extends BaseController {
         }
         id = hr.getHrId();
         page = page < 1 || page > GlobalConst.MAX_PAGE ? 1 : page;
-
-
         PageInfo<PositionEntity> positionEntities = positionService.listPositionByHr(id, page, limit);
-
         Map output = new TreeMap();
         output.put("title", ("第" + page + "页"));
         output.put("hr", hr);
         output.put("positions", positionEntities);
 
         JSONObject jsonObject = JSONObject.fromObject(output);
-
         return jsonObject.toString();
     }
 
     /**
-     * 职位信息表
+     * 根据hrId职位信息表, 没有则查询全部
      *
      * @param request
      *
      * @return
      */
     @GetMapping("/position/getByHr")
-    @ResponseBody
     public qdu.java.recruit.common.PageInfo<Position> getPositionsByHr(HttpServletRequest request,
                                                                        @RequestParam(value = "hrid",
                                                                                required = false) Integer hrid,
                                                                        @RequestParam("pageNum") Integer pageNum,
                                                                        @RequestParam("pageSize") Integer pageSize) {
-
-        HREntity hr = this.getHR(request);
-
-        if (hr != null) {
-            hrid = hr.getHrId();
-        }
-
         // 查询总人数
         SelectStatementProvider count = select(count())
                 .from(PositionDynamicSqlSupport.position)
                 .where(PositionDynamicSqlSupport.hridpub, isEqualToWhenPresent(hrid))
+                .and(PositionDynamicSqlSupport.statepub, isNotEqualTo(0))
                 .build().render(RenderingStrategies.MYBATIS3);
         long totalSize = positionMapper.count(count);
         PageHelper.startPage(pageNum, pageSize);
         SelectStatementProvider statementProvider = select(PositionMapper.selectList)
                 .from(PositionDynamicSqlSupport.position)
                 .where(PositionDynamicSqlSupport.hridpub, isEqualToWhenPresent(hrid))
-                .and(PositionDynamicSqlSupport.statepub, isEqualTo(1))
+                .and(PositionDynamicSqlSupport.statepub, isNotEqualTo(0))
                 .orderBy(PositionDynamicSqlSupport.releasedate.descending())
                 .build().render(RenderingStrategies.MYBATIS3);
         List<Position> positionList = positionMapper.selectMany(statementProvider);
@@ -153,6 +153,47 @@ public class PositionController extends BaseController {
         pageInfo.setPageData(positionList);
         pageInfo.setTotalSize(totalSize);
         pageInfo.setPageNum(pageNum);
+        return pageInfo;
+    }
+
+    @PostMapping("/addPosition")
+    public void addPositions(@RequestBody Position position) {
+        position.setReleasedate(new Date());
+        position.setStatepub(1);
+        position.setHits(0);
+        int insert = positionMapper.insert(position);
+        if (insert == 0) {
+            throw new AlertException(ResultCode.INSERT_ERROR);
+        }
+    }
+
+    @PutMapping("/updatePosition")
+    public void updatePosition(@RequestBody Position position) {
+        int result = positionMapper.updateByPrimaryKeySelective(position);
+        if (result == 0) {
+            throw new AlertException(ResultCode.UPDATE_ERROR);
+        }
+    }
+
+    @DeleteMapping("/deletePosition")
+    public void deletePosition(@RequestParam Integer positionId) {
+        int result = positionMapper.deleteByPrimaryKey(positionId);
+        if (result == 0) {
+            throw new AlertException(ResultCode.DELETE_ERROR);
+        }
+    }
+
+    @GetMapping("getDepartmentListByHr")
+    public PageInfo<Department> getAllDepartment(@RequestParam("hrid") Integer hrid) {
+        List<Department> departmentList = new ArrayList<>();
+        hrMapper.selectByPrimaryKey(hrid)
+                .map(Hr::getDepartmentid).ifPresent(dId -> departmentMapper.selectByPrimaryKey(dId)
+                .map(Department::getCompanyid).ifPresent(cId ->
+                        departmentList.addAll(departmentMapper.select(d -> d.where(DepartmentDynamicSqlSupport.companyid,
+                                isEqualTo(cId))))
+                ));
+        PageInfo<Department> pageInfo = new PageInfo<>();
+        pageInfo.setList(departmentList);
         return pageInfo;
     }
 
@@ -254,10 +295,12 @@ public class PositionController extends BaseController {
 
     /**
      * 新增职位
+     *
      * @param modelMap
      * @param request
      * @param id
      * @param positionEntity
+     *
      * @return
      */
     @PostMapping("hr{id}/position/create")
